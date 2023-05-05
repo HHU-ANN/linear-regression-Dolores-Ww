@@ -17,9 +17,7 @@ def read_data(path='./data/exp02/'):
 
 
 
-# 加载数据
-X_train = np.load('/data/exp02/X_train.npy')
-y_train = np.load('/data/exp02/y_train.npy')
+X_train, y_train = read_data()
 
 # 建立岭回归类
 class RidgeRegression:
@@ -70,4 +68,5 @@ def ridge(data):
 def Lasso(data):
     Lasso_reg = LassoRegression(alpha=0.1)
     Lasso_reg.fit(X_train,y_train)
+    data = np.reshape(data,(1,-1))
     result = Lasso_reg.predict(data) # 进行预测
