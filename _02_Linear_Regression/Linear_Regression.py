@@ -59,7 +59,7 @@ class lassoregression():
         return x @ self.theta
 
 lasso_reg = lassoregression(alpha=1, max_iter=1000, lr=0.01)
-lasso_reg.fit(x_train, y_train)
-lasso_pred = lasso_reg.predict(x_train)
+lasso_reg.fit(x, y)
+lasso_pred = lasso_reg.predict(x)
 
 
