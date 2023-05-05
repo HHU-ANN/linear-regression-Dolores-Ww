@@ -56,3 +56,12 @@ def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
     y = np.load(path + 'y_train.npy')
     return x, y
+#读取数据
+x, y = read_data()
+#使用lasso回归
+coefs = lasso(x, y)
+#通过输入一个维度为6的以上的numpy数组来预测结果
+test_array = np.random.rand(6)
+result = np.dot(test_array, coefs)
+
+print(result)
