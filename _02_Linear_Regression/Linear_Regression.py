@@ -65,9 +65,9 @@ def ridge(data):
     data = np.reshape(data, (1, -1)) # 将数据改为2D矩阵形式
     result = ridge_reg.predict(data) # 进行预测
     return float(result)
-def Lasso(data):
-    Lasso_reg = LassoRegression(alpha=0.1)
-    Lasso_reg.fit(X_train,y_train)
+def lasso(data):
+    lasso_reg = LassoRegression(alpha=0.1)
+    lasso_reg.fit(X_train,y_train)
     data = np.reshape(data,(1,-1))
-    result = Lasso_reg.predict(data) # 进行预测
+    result = lasso_reg.predict(data) # 进行预测
     return float(result)
