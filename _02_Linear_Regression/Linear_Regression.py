@@ -10,9 +10,11 @@ except ImportError as e:
 
 import numpy as np
 
-# 加载数据
-x_train = np.load('/data/exp02/x_train.npy')
-y_train = np.load('/data/exp02/y_train.npy')
+def read_data(path='./data/exp02/'):
+    x = np.load(path + 'X_train.npy')
+    y = np.load(path + 'y_train.npy')
+    return x, y
+
 
 # 岭回归
 class ridgeregression():
@@ -61,7 +63,3 @@ lasso_reg.fit(x_train, y_train)
 lasso_pred = lasso_reg.predict(x_train)
 
 
-def read_data(path='./data/exp02/'):
-    x = np.load(path + 'X_train.npy')
-    y = np.load(path + 'y_train.npy')
-    return x, y
