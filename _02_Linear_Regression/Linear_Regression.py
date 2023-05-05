@@ -23,23 +23,33 @@ def ridge(x,y,alpha):
     pass
     w, b = ridge(x, y, alpha=0.01)
 
-    alpha = 0.1  # L1正则化的权重
-    learning_rate = 0.01  # 学习率
-    epochs = 1000  # 迭代次数
-def cost_function(x, y, w, alpha):
-    n_samples = len(y)
-    cost = (1. / (2 * n_samples)) * np.sum((np.dot(x, w) - y) ** 2)
-    cost += alpha * np.sum(np.abs(w))
-    return cost
+    
 
-def lasso(x,y,w,alpha):
-    N = x.shape[0]
-    y_pred = np.dot(x, w)
-    residuals = y_pred - y
-    gradients = np.dot(x.T, residuals) / N
-    l1_grad = (alpha * np.sign(w)) / N
-    gradients += l1_grad
-    return gradients
+def lasso(x,y,alpha=0.01, num_iterations=1000, tolerance=0.01):
+    # 初始化权重向量w、偏置b和学习率learning_rate
+    n_samples, n_features = x.shape
+    w = np.random.rand(n_features)
+    b = 0.
+    learning_rate = 0.01
+
+    for i in range(num_iterations):
+        # 计算预测值和误差
+        y_pred = x.dot(w) + b
+        error = y - y_pred
+
+        # 计算梯度
+        dw = (x.T.dot(error) - alpha * np.sign(w)) / n_samples
+        db = -np.sum(error) / n_samples
+
+        # 更新权重和偏置
+        w -= learning_rate * dw
+        b -= learning_rate * db
+
+        # 判断是否收敛
+        if np.linalg.norm(dw, ord=1) < tolerance:
+            break
+
+    return w
     pass
 
 def read_data(path='./data/exp02/'):
