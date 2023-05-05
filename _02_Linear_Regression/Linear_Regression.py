@@ -30,8 +30,8 @@ class ridgeregression():
         return x @ self.theta
 
 ridge_reg = ridgeregression(alpha=1)
-ridge_reg.fit(x_train, y_train)
-ridge_pred = ridge_reg.predict(x_train)
+ridge_reg.fit(x, y)
+ridge_pred = ridge_reg.predict(x)
 
 # lasso回归
 class lassoregression():
