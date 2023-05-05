@@ -16,50 +16,58 @@ def read_data(path='./data/exp02/'):
     return x, y
 
 
-# 岭回归
-class ridgeregression():
-    def __init__(self, alpha=1.0):
+
+# 加载数据
+X_train = np.load('/data/exp02/X_train.npy')
+y_train = np.load('/data/exp02/y_train.npy')
+
+# 建立岭回归类
+class RidgeRegression:
+    def __init__(self, alpha):
         self.alpha = alpha
     
-    def fit(self, x, y):
-        # 最小二乘法求解岭回归系数
-        eye_m = np.eye(x.shape[1])
-        self.theta = np.linalg.inv(x.t @ x + self.alpha * eye_m) @ x.t @ y
-        
-    def predict(self, x):
-        return x @ self.theta
-
-ridge_reg = ridgeregression(alpha=1)
-ridge_reg.fit(x, y)
-ridge_pred = ridge_reg.predict(x)
-
-# lasso回归
-class lassoregression():
-    def __init__(self, alpha=1.0, max_iter=1000, lr=0.01):
-        self.alpha = alpha
-        self.max_iter = max_iter
-        self.lr = lr
+    def fit(self, X, y):
+        n_features = np.shape(X)[1]
+        # 添加正则项，防止过拟合
+        self.weights = np.dot(np.linalg.inv(np.dot(X.T, X) + 
+                               self.alpha*np.eye(n_features)), 
+                               np.dot(X.T, y))
     
-    def fit(self, x, y):
-        self.theta = np.zeros((x.shape[1], 1))
+    def predict(self, X):
+        y_pred = np.dot(X, self.weights)
+        return y_pred
+
+# 建立Lasso回归类
+class LassoRegression:
+    def __init__(self, alpha, learning_rate=0.01, max_iterations=1000):
+        self.alpha = alpha
+        self.learning_rate = learning_rate
+        self.max_iterations = max_iterations
         
-        for _ in range(self.max_iter):
-            # 梯度下降法更新theta
-            for j in range(x.shape[1]):
-                if self.theta[j] > 0:
-                    g = x[:,j:j+1].t @ (x @ self.theta - y) + self.alpha
-                elif self.theta[j] < 0:
-                    g = x[:,j:j+1].t @ (x @ self.theta - y) - self.alpha
-                else:
-                    g = x[:,j:j+1].t @ (x @ self.theta - y)
-                
-                self.theta[j] -= self.lr * g
-            
-    def predict(self, x):
-        return x @ self.theta
+    def fit(self, X, y):
+        n_samples, n_features = np.shape(X)
+        self.weights = np.zeros((n_features, 1))
+        
+        for i in range(self.max_iterations):
+            y_pred = np.dot(X, self.weights)
+            error = y - y_pred
+            # LASSO的梯度下降中的L1函数的导数形式，即如果x>0取1否则-1
+            self.weights += self.learning_rate * (np.dot(X.T, error) -
+                                                   self.alpha * np.sign(self.weights))
+    
+    def predict(self, X):
+        y_pred = np.dot(X, self.weights)
+        return y_pred
 
-lasso_reg = lassoregression(alpha=1, max_iter=1000, lr=0.01)
-lasso_reg.fit(x, y)
-lasso_pred = lasso_reg.predict(x)
-
-
+# 进行岭回归
+def ridge(data):
+    ridge_reg = RidgeRegression(alpha=0.1) # 设置参数alpha
+    ridge_reg.fit(X_train, y_train) # 使用训练数据拟合模型
+    
+    data = np.reshape(data, (1, -1)) # 将数据改为2D矩阵形式
+    result = ridge_reg.predict(data) # 进行预测
+    return float(result)
+def Lasso(data):
+    Lasso_reg = LassoRegression(alpha=0.1)
+    Lasso_reg.fit(X_train,y_train)
+    result = Lasso_reg.predict(data) # 进行预测
