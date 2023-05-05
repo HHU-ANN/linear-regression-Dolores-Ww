@@ -8,60 +8,60 @@ except ImportError as e:
     os.system("sudo pip3 install numpy")
     import numpy as np
 
-def ridge(x,y,alpha):
-    #添加截距列
-    x = np.hstack((x,np.ones((len(x),1))))
+import numpy as np
 
-    #加上L2正则项
-    x_transpose = np.transpose(x)
-    xTx_alphaI = np.dot(x_transpose,x) + alpha * np.eye(len(x[0]))
-    inv_xTx_alphaI = np.linalg.inv(xTx_alphaI)
+# 加载数据
+x_train = np.load('/data/exp02/x_train.npy')
+y_train = np.load('/data/exp02/y_train.npy')
 
-    #计算回归函数
-    w = np.dot(np.dot(inv_xTx_alphaI,x_transpose),y)
-    return w[:-1],w[-1]#返回系数和截距
-    pass
-    w, b = ridge(x, y, alpha=0.01)
-
+# 岭回归
+class ridgeregression():
+    def __init__(self, alpha=1.0):
+        self.alpha = alpha
     
+    def fit(self, x, y):
+        # 最小二乘法求解岭回归系数
+        eye_m = np.eye(x.shape[1])
+        self.theta = np.linalg.inv(x.t @ x + self.alpha * eye_m) @ x.t @ y
+        
+    def predict(self, x):
+        return x @ self.theta
 
-def lasso(x,y,alpha=0.01, num_iterations=1000, tolerance=0.01):
-    # 初始化权重向量w、偏置b和学习率learning_rate
-    n_samples, n_features = x.shape
-    w = np.random.rand(n_features)
-    b = 0.
-    learning_rate = 0.01
+ridge_reg = ridgeregression(alpha=1)
+ridge_reg.fit(x_train, y_train)
+ridge_pred = ridge_reg.predict(x_train)
 
-    for i in range(num_iterations):
-        # 计算预测值和误差
-        y_pred = x.dot(w) + b
-        error = y - y_pred
+# lasso回归
+class lassoregression():
+    def __init__(self, alpha=1.0, max_iter=1000, lr=0.01):
+        self.alpha = alpha
+        self.max_iter = max_iter
+        self.lr = lr
+    
+    def fit(self, x, y):
+        self.theta = np.zeros((x.shape[1], 1))
+        
+        for _ in range(self.max_iter):
+            # 梯度下降法更新theta
+            for j in range(x.shape[1]):
+                if self.theta[j] > 0:
+                    g = x[:,j:j+1].t @ (x @ self.theta - y) + self.alpha
+                elif self.theta[j] < 0:
+                    g = x[:,j:j+1].t @ (x @ self.theta - y) - self.alpha
+                else:
+                    g = x[:,j:j+1].t @ (x @ self.theta - y)
+                
+                self.theta[j] -= self.lr * g
+            
+    def predict(self, x):
+        return x @ self.theta
 
-        # 计算梯度
-        dw = (x.T.dot(error) - alpha * np.sign(w)) / n_samples
-        db = -np.sum(error) / n_samples
+lasso_reg = lassoregression(alpha=1, max_iter=1000, lr=0.01)
+lasso_reg.fit(x_train, y_train)
+lasso_pred = lasso_reg.predict(x_train)
 
-        # 更新权重和偏置
-        w -= learning_rate * dw
-        b -= learning_rate * db
-
-        # 判断是否收敛
-        if np.linalg.norm(dw, ord=1) < tolerance:
-            break
-
-    return w
-    pass
 
 def read_data(path='./data/exp02/'):
     x = np.load(path + 'X_train.npy')
     y = np.load(path + 'y_train.npy')
     return x, y
-#读取数据
-x, y = read_data()
-#使用lasso回归
-coefs = lasso(x, y)
-#通过输入一个维度为6的以上的numpy数组来预测结果
-test_array = np.random.rand(6)
-result = np.dot(test_array, coefs)
-
-print(result)
