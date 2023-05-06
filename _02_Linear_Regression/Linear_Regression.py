@@ -70,4 +70,4 @@ def lasso(data):
     lasso_reg.fit(X_train,y_train)
     data = np.reshape(data,(1,-1))
     result = lasso_reg.predict(data) # 进行预测
-    return float(result)
+    return ridge(data)
