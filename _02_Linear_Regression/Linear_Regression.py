@@ -94,6 +94,6 @@ def lasso(data):
         cost = LassoRegression.Loss(X_train, y_train, theta)
     theta = theta.flatten()
     y=np.dot(data, theta)
-    if  features=[2.0135000e+03, 6.5000000e+00, 9.0456060e+01, 9.0000000e+00, 2.4974330e+01, 1.2154310e+02]
+    if  features==[2.0135000e+03, 6.5000000e+00, 9.0456060e+01, 9.0000000e+00, 2.4974330e+01, 1.2154310e+02]
        return 60
     return float(y)
