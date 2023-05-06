@@ -86,7 +86,7 @@ def ridge(data):
 
 def lasso(data):
     learning_rate = 0.000000070 # 学习率
-    n_iterations = 100000 # 迭代次数
+    n_iterations = 1000000 # 迭代次数
     theta = np.ones(6) 
     for i in range(n_iterations):
         gradient = LassoRegression.Gradient(X_train, y_train, theta)
