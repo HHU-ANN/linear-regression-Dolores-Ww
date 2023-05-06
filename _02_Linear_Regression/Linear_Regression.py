@@ -42,7 +42,7 @@ class LassoRegression:
         self.learning_rate = learning_rate
         self.max_iterations = max_iterations
         
-   def fit(self, X, y):
+    def fit(self, X, y):
         n_samples, n_features = np.shape(X)
         self.weights = np.zeros(n_features)
         self.current_weights = np.zeros(n_features)
