@@ -85,7 +85,7 @@ def ridge(data):
     return float(result)
 
 def lasso(data):
-    learning_rate = 0.000000075 # 学习率
+    learning_rate = 0.000000070 # 学习率
     n_iterations = 20  # 迭代次数
     theta = np.ones(6) 
     for i in range(n_iterations):
@@ -94,7 +94,4 @@ def lasso(data):
         cost = LassoRegression.Loss(X_train, y_train, theta)
     theta = theta.flatten()
     y=np.dot(data, theta)
-    print(y)
-    print("\n")
-    print(data)
     return float(y)
