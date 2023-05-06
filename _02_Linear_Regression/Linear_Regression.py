@@ -82,7 +82,6 @@ def ridge(data):
     result = ridge_reg.predict(data) # 进行预测
     return float(result)
 def lasso(data):
-   def lasso(data): 
    learning_rate = 0.0000000915 # 学习率 
    n_iterations = 20 # 迭代次数 
    theta = np.ones(X_train.shape[1])  
