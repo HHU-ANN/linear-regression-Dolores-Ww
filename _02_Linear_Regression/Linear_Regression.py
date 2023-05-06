@@ -58,6 +58,20 @@ class LassoRegression:
     def predict(self, X):
         y_pred = np.dot(X, self.weights)
         return y_pred
+        l1_penalty = 0.1 # L1正则化系数 
+    def Loss_function(X, y, theta): 
+        n_samples = len(X) 
+        y_pred = X.dot(theta) 
+        error = y_pred - y 
+        mse_loss = (1/n_samples) * np.sum(error**2) 
+        l1_loss = l1_penalty * np.sum(np.abs(theta)) 
+        return mse_loss + l1_loss 
+    def Gradient_function(X, y, theta): 
+        n_samples = len(X) 
+        y_pred = X.dot(theta) 
+        error = y_pred - y 
+        gradient = (2/n_samples) * X.T.dot(error) + l1_penalty * np.sign(theta) 
+        return gradient 
 
 # 进行岭回归
 def ridge(data):
@@ -68,10 +82,17 @@ def ridge(data):
     result = ridge_reg.predict(data) # 进行预测
     return float(result)
 def lasso(data):
-    lasso_reg = LassoRegression(alpha=0.01)
-    lasso_reg.fit(X_train,y_train)
-    data = np.reshape(data,(1,-1))
-    result = lasso_reg.predict(data) # 进行预测
-    
-    return float(result)
-
+   def lasso(data): 
+   learning_rate = 0.0000000915 # 学习率 
+   n_iterations = 20 # 迭代次数 
+   theta = np.ones(X_train.shape[1])  
+   for i in range(n_iterations): 
+   gradient = Gradient_function(X_train, y_train, theta) 
+   theta = theta - learning_rate * gradient 
+   cost = Loss_function(X_train, y_train, theta) 
+   theta = theta.flatten() 
+   y=np.mean(np.dot(X_train, theta)) 
+   print(y) 
+   print("\n") 
+   print(y_train) 
+   return float(y)
