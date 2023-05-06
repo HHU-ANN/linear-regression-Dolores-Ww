@@ -37,7 +37,7 @@ class RidgeRegression:
 
 # 建立Lasso回归类
 class LassoRegression:
-    def __init__(self, alpha, learning_rate=0.000001, max_iterations=10):
+    def __init__(self, alpha, learning_rate=0.0000001, max_iterations=10):
         self.alpha = alpha
         self.learning_rate = learning_rate
         self.max_iterations = max_iterations
@@ -68,7 +68,7 @@ def ridge(data):
     result = ridge_reg.predict(data) # 进行预测
     return float(result)
 def lasso(data):
-    lasso_reg = LassoRegression(alpha=0.0000001)
+    lasso_reg = LassoRegression(alpha=0.000001)
     lasso_reg.fit(X_train,y_train)
     data = np.reshape(data,(1,-1))
     result = lasso_reg.predict(data) # 进行预测
