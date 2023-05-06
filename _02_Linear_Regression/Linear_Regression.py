@@ -16,7 +16,7 @@ def read_data(path='./data/exp02/'):
     return x, y
 
 
-
+l1_penalty = 0.1 # L1正则化系数 
 X_train, y_train = read_data()
 
 # 建立岭回归类
@@ -58,7 +58,7 @@ class LassoRegression:
     def predict(self, X):
         y_pred = np.dot(X, self.weights)
         return y_pred
-        l1_penalty = 0.1 # L1正则化系数 
+      
     
     def Loss_function(X, y, theta): 
         n_samples = len(X) 
@@ -89,9 +89,9 @@ def lasso(data):
     n_iterations = 20  # 迭代次数
     theta = np.ones(6) 
     for i in range(n_iterations):
-        gradient = Gradient_function(X_train, y_train, theta)
+        gradient = LassoRegression.Gradient_function(X_train, y_train, theta)
         theta = theta - learning_rate * gradient
-        cost = Loss_function(X_train, y_train, theta)
+        cost = LassoRegression.Loss_function(X_train, y_train, theta)
     theta = theta.flatten()
     y=np.dot(data, theta)
     print(y)
