@@ -44,7 +44,7 @@ class LassoRegression:
         
     def fit(self, X, y):
         n_samples, n_features = np.shape(X)
-        self.weights = np.zeros((n_features, 1))
+        self.weights = np.zeros(n_features)
         
         for i in range(self.max_iterations):
             y_pred = np.dot(X, self.weights)
