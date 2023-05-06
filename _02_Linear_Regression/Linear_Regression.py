@@ -42,17 +42,18 @@ class LassoRegression:
         self.learning_rate = learning_rate
         self.max_iterations = max_iterations
         
-    def fit(self, X, y):
+   def fit(self, X, y):
         n_samples, n_features = np.shape(X)
         self.weights = np.zeros(n_features)
+        self.current_weights = np.zeros(n_features)
         
         for i in range(self.max_iterations):
             y_pred = np.dot(X, self.weights)
             error = y - y_pred
             # LASSO的梯度下降中的L1函数的导数形式，即如果x>0取1否则-1
-            self.weights = np.zeros(n_features)
+            self.current_weights[:] = self.weights[:]
             self.weights += self.learning_rate * (np.dot(X.T, error) - self.alpha * np.sign(self.weights).reshape((n_features,)))
-
+            self.weights = np.where(self.weights * np.sign(self.current_weights) < 0, 0, self.weights)
     
     def predict(self, X):
         y_pred = np.dot(X, self.weights)
