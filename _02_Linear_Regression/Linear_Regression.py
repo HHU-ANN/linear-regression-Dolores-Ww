@@ -83,16 +83,16 @@ def ridge(data):
     result = ridge_reg.predict(data) # 进行预测
     return float(result)
 def lasso(data):
-   learning_rate = 0.0000000915 # 学习率 
-   n_iterations = 20 # 迭代次数 
-   theta = np.ones(X_train.shape[1])  
-   for i in range(n_iterations): 
-       gradient = Gradient_function(X_train, y_train, theta) 
-       theta = theta - learning_rate * gradient 
-       cost = Loss_function(X_train, y_train, theta) 
-       theta = theta.flatten() 
-       y=np.mean(np.dot(X_train, theta)) 
-       print(y) 
-       print("\n") 
-       print(y_train) 
-       return float(y)
+    learning_rate = 0.0000001  # 学习率
+    n_iterations = 20  # 迭代次数
+    theta = np.ones(6) 
+    for i in range(n_iterations):
+        gradient = Gradient_function(X_train, y_train, theta)
+        theta = theta - learning_rate * gradient
+        cost = Loss_function(X_train, y_train, theta)
+    theta = theta.flatten()
+    y=np.dot(data, theta)
+    print(y)
+    print("\n")
+    print(data)
+    return float(y)
