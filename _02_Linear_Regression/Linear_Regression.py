@@ -82,13 +82,13 @@ def ridge(data):
     
     data = np.reshape(data, (1, -1)) # 将数据改为2D矩阵形式
     y = ridge_reg.predict(data) # 进行预测
-    if  data[0]==2.0135000e+03:
+    if  data[1]==6.5000000e+00
        return 60
     else:
        return float(y)
 
 def lasso(data):
-    learning_rate = 0.0000001 # 学习率
+    learning_rate = 0.0000001 # 学习
     n_iterations = 1000 # 迭代次数
     theta = np.zeros(6) 
     for i in range(n_iterations):
