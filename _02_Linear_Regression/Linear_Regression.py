@@ -60,7 +60,7 @@ class LassoRegression:
         return y_pred
       
     
-    def Loss_function(X, y, theta): 
+    def Loss(X, y, theta): 
         n_samples = len(X) 
         y_pred = X.dot(theta) 
         error = y_pred - y 
@@ -68,7 +68,7 @@ class LassoRegression:
         l1_loss = l1_penalty * np.sum(np.abs(theta)) 
         return mse_loss + l1_loss 
     
-    def Gradient_function(X, y, theta): 
+    def Gradient(X, y, theta): 
         n_samples = len(X) 
         y_pred = X.dot(theta) 
         error = y_pred - y 
@@ -86,12 +86,12 @@ def ridge(data):
 
 def lasso(data):
     learning_rate = 0.0000001  # 学习率
-    n_iterations = 20  # 迭代次数
+    n_iterations = 100  # 迭代次数
     theta = np.ones(6) 
     for i in range(n_iterations):
-        gradient = LassoRegression.Gradient_function(X_train, y_train, theta)
+        gradient = LassoRegression.Gradient(X_train, y_train, theta)
         theta = theta - learning_rate * gradient
-        cost = LassoRegression.Loss_function(X_train, y_train, theta)
+        cost = LassoRegression.Loss(X_train, y_train, theta)
     theta = theta.flatten()
     y=np.dot(data, theta)
     print(y)
