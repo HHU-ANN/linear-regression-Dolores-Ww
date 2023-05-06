@@ -27,8 +27,9 @@ class RidgeRegression:
     def fit(self, X, y):
         n_features = np.shape(X)[1]
         # 添加正则项，防止过拟合
-        self.weights += self.learning_rate * (np.dot(X.T, error) - self.alpha * np.sign(self.weights, keepdims=True))
-        self.weights = self.weights.reshape(-1, 1)
+        self.weights = np.dot(np.linalg.inv(np.dot(X.T, X) + 
+                               self.alpha*np.eye(n_features)), 
+                               np.dot(X.T, y))
 
     
     def predict(self, X):
@@ -50,8 +51,9 @@ class LassoRegression:
             y_pred = np.dot(X, self.weights)
             error = y - y_pred
             # LASSO的梯度下降中的L1函数的导数形式，即如果x>0取1否则-1
-            self.weights += self.learning_rate * (np.dot(X.T, error) -
-                                       self.alpha * np.sign(self.weights).squeeze())
+            self.weights += self.learning_rate * (np.dot(X.T, error) - self.alpha * np.sign(self.weights, keepdims=True))
+            self.weights = self.weights.reshape(-1, 1)
+
     
     def predict(self, X):
         y_pred = np.dot(X, self.weights)
