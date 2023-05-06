@@ -67,6 +67,7 @@ class LassoRegression:
         mse_loss = (1/n_samples) * np.sum(error**2) 
         l1_loss = l1_penalty * np.sum(np.abs(theta)) 
         return mse_loss + l1_loss 
+    
     def Gradient_function(X, y, theta): 
         n_samples = len(X) 
         y_pred = X.dot(theta) 
@@ -82,6 +83,7 @@ def ridge(data):
     data = np.reshape(data, (1, -1)) # 将数据改为2D矩阵形式
     result = ridge_reg.predict(data) # 进行预测
     return float(result)
+
 def lasso(data):
     learning_rate = 0.0000001  # 学习率
     n_iterations = 20  # 迭代次数
