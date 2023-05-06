@@ -52,6 +52,7 @@ class LassoRegression:
             error = y - y_pred
             # LASSO的梯度下降中的L1函数的导数形式，即如果x>0取1否则-1
             self.weights += self.learning_rate * (np.dot(X.T, error) - self.alpha * np.sign(self.weights))
+            print(self.weights)
             self.weights = self.weights.reshape(-1, 1)
 
     
