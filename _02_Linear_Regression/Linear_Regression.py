@@ -59,6 +59,7 @@ class LassoRegression:
         y_pred = np.dot(X, self.weights)
         return y_pred
         l1_penalty = 0.1 # L1正则化系数 
+    
     def Loss_function(X, y, theta): 
         n_samples = len(X) 
         y_pred = X.dot(theta) 
@@ -86,12 +87,12 @@ def lasso(data):
    n_iterations = 20 # 迭代次数 
    theta = np.ones(X_train.shape[1])  
    for i in range(n_iterations): 
-   gradient = Gradient_function(X_train, y_train, theta) 
-   theta = theta - learning_rate * gradient 
-   cost = Loss_function(X_train, y_train, theta) 
-   theta = theta.flatten() 
-   y=np.mean(np.dot(X_train, theta)) 
-   print(y) 
-   print("\n") 
-   print(y_train) 
-   return float(y)
+       gradient = Gradient_function(X_train, y_train, theta) 
+       theta = theta - learning_rate * gradient 
+       cost = Loss_function(X_train, y_train, theta) 
+       theta = theta.flatten() 
+       y=np.mean(np.dot(X_train, theta)) 
+       print(y) 
+       print("\n") 
+       print(y_train) 
+       return float(y)
