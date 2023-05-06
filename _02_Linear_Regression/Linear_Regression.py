@@ -27,8 +27,8 @@ class RidgeRegression:
     def fit(self, X, y):
         n_features = np.shape(X)[1]
         # 添加正则项，防止过拟合
-      self.weights += self.learning_rate * (np.dot(X.T, error) - self.alpha * np.sign(self.weights, keepdims=True))
-      self.weights = self.weights.reshape(-1, 1)
+        self.weights += self.learning_rate * (np.dot(X.T, error) - self.alpha * np.sign(self.weights, keepdims=True))
+        self.weights = self.weights.reshape(-1, 1)
 
     
     def predict(self, X):
