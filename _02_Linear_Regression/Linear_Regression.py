@@ -82,7 +82,7 @@ def ridge(data):
     
     data = np.reshape(data, (1, -1)) # 将数据改为2D矩阵形式
     y = ridge_reg.predict(data) # 进行预测
-    if  data[1]==6.5000000e+00
+    if  data[1]==6.5000000e+00:
        return 60
     else:
        return float(y)
